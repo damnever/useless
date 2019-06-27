@@ -53,6 +53,7 @@ func main() {
 	klog.Infof("KubeClient configured")
 
 	// Ref: https://github.com/kubernetes/client-go/blob/master/examples/leader-election/main.go
+	// FIXME(damnever): keeps followers' cache synced so it can respond quickly when the leader step down
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	watchStopSignals(cancel)
