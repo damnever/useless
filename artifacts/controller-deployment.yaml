@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    useless: controller
+  name: useless-controller
+  namespace: useless
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      useless: controller
+  template:
+    metadata:
+      labels:
+        useless: controller
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: useless-controller
+          imagePullPolicy: Always
+          image: registry.cn-hangzhou.aliyuncs.com/useless/controller:latest
+          env:
+            - name: ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
