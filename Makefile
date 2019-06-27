@@ -48,3 +48,4 @@ clean:  ## Clean up useless files.
 	find . -type f -name '.DS_Store' -exec rm -f {} +
 	find . -type f -name '*.test' -exec rm -f {} +
 	find . -type f -name '*.prof' -exec rm -f {} +
+	docker rmi $(shell docker images | awk '{if (NR > 1 && $$2 == "<none>") print $$3}') 2>/dev/null
