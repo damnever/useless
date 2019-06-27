@@ -38,7 +38,7 @@ func createFunction(content, name, dockerReg, kubeConfig string) {
 		},
 	)
 	assert(err == nil, "create function failed: %v", err)
-	fmt.Printf("Function create, name: %s - %s\n", function.GetName(), function.Spec.FuncName)
+	fmt.Printf("Function created: %s\n", function.GetName())
 }
 
 func deleteFunction(name, kubeConfig string) {
@@ -48,5 +48,6 @@ func deleteFunction(name, kubeConfig string) {
 	funcclientset, err := versioned.NewForConfig(config)
 	assert(err == nil, "create clientset failed: %v", err)
 	err = funcclientset.UselessV1().Functions(defaultNamespace).Delete(name, nil)
-	assert(err == nil, "create function failed: %v", err)
+	assert(err == nil, "Delete function failed: %v", err)
+	fmt.Printf("Function deleted: %s\n", name)
 }
