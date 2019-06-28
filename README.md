@@ -2,7 +2,7 @@
 
 A simple useless 'FaaS' framework build on top of Kubernetes, since it is useless, hard coded things were everywhere.
 
-Just for [learning](), play with it:
+Just for [learning](https://drafts.damnever.com/2019/play-FaaS-and-Kubernetes-with-hands-and-brain.html), play with it:
 ```Bash
 # If you want to run ./hack/update-codegen.sh, you must:
 #  - go get -u k8s.io/code-generator/cmd/...
