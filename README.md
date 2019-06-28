@@ -9,14 +9,7 @@ Just for [learning](), play with it:
 #  - put the current project under /path/to/github.com/damnever/, that is a known issue for code-generator
 git clone git@github.com:damnever/useless.git && cd useless
 
-# CoreDNS is required
-# https://kubernetes.io/docs/tasks/administer-cluster/coredns/
-# https://coredns.io/2017/04/28/coredns-for-minikube/
-#  - # minikube may fail to set up the cluster if --memory too small..
-#  - git clone https://github.com/coredns/deployment
-#  - cd deployment/kubernetes && ./deploy.sh > coredns.yaml
-#  - # minikube addons disable kube-dns
-#  - kubectl create -f coredns.yaml
+# NOTE: minikube may fail to set up the cluster if --memory too small(e.g. 1024)..
 kubectl create namespace useless
 kubectl config set-context --current --namespace=useless
 # Create CRD
@@ -29,5 +22,7 @@ make build-cli
 ./bin/useless-cli -create ./artifacts/what_the_commits.go::WhatTheCommits
 
 kubectl get services
-curl -H "Content-Type: application/json" -X POST -d '{"input":"{\\"count\\":3}"}' <EXTERNAL-IP>
+# Ingress maybe a good choice, anyway..
+kubectl port-forward service/whatthecommits 8080:80
+curl -H "Content-Type: application/json" -X POST -d '{"input":"{\"count\":3}"}' http://localhost:8080
 ```

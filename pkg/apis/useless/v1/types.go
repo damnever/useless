@@ -115,8 +115,7 @@ func (f *Function) Service() *corev1.Service {
 				Protocol: corev1.ProtocolTCP,
 				Port:     80,
 			}},
-			Type:         corev1.ServiceTypeExternalName, // coredns required
-			ExternalName: externalName(f.Spec.FuncName),
+			Type: corev1.ServiceTypeClusterIP,
 		},
 	}
 }
