@@ -17,12 +17,21 @@ kubectl create -f ./artifacts/function-definition.yaml
 # Create controller to deal with CRD
 kubectl create -f ./artifacts/controller-deployment.yaml
 
+
 make build-cli
 # ./bin/useless-cli -build ./artifacts/what_the_commits.go::WhatTheCommits  # build and push function image
 ./bin/useless-cli -create ./artifacts/what_the_commits.go::WhatTheCommits
 
-kubectl get services
 # Ingress maybe a good choice, anyway..
+kubectl get services
 kubectl port-forward service/whatthecommits 8080:80
 curl -H "Content-Type: application/json" -X POST -d '{"input":"{\"count\":3}"}' http://localhost:8080
+
+
+# Clean up
+# Or you can make the process slower..
+# - ./bin/useless-cli -delete whatthecommits
+# - kubectl delete -f ./artifacts/controller-deployment.yaml
+# - kubectl delete -f ./artifacts/function-definition.yaml
+kubectl delete namespace useless
 ```
