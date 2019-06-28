@@ -45,6 +45,13 @@ func main() {
 	flag.Parse()
 	klog.SetOutput(os.Stdout)
 
+	const leaseLockNamespace = "useless"
+	const leaseLockName = "useless-controller"
+	ID := os.Getenv("ID")
+	if ID == "" {
+		ID = "whatever"
+	}
+
 	config, err := clientcmd.BuildConfigFromFlags(flagMasterURL, flagKubeConfig)
 	if err != nil {
 		klog.Fatalf("Error building kubeconfig: %s", err)
@@ -59,9 +66,6 @@ func main() {
 	watchStopSignals(cancel)
 	config.Wrap(transport.ContextCanceller(ctx, fmt.Errorf("the leader is shutting down")))
 
-	const leaseLockNamespace = "useless"
-	const leaseLockName = "useless-controller"
-	ID := os.Getenv("ID")
 	klog.Infof("%s: starting leader election", ID)
 	leaderelection.RunOrDie(ctx, leaderelection.LeaderElectionConfig{
 		Lock: &resourcelock.LeaseLock{
@@ -75,7 +79,7 @@ func main() {
 			},
 		},
 		ReleaseOnCancel: true,
-		LeaseDuration:   60 * time.Second,
+		LeaseDuration:   30 * time.Second,
 		RenewDeadline:   15 * time.Second,
 		RetryPeriod:     5 * time.Second,
 		Callbacks: leaderelection.LeaderCallbacks{
